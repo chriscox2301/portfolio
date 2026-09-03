@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Design reference assets — not shipped app code.
+    "design_handoff_portfolio/**",
   ]),
 ]);
 

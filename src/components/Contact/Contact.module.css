@@ -1,0 +1,124 @@
+.section {
+  padding: 92px 0 0;
+}
+
+.colophon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.colophonRule {
+  height: 1px;
+  flex: 1;
+  background: var(--color-accent);
+}
+
+.colophonText {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+.grid {
+  padding: 44px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(30px, 3.8vw, 48px);
+  line-height: 1.06;
+  margin: 0;
+  max-width: 22ch;
+}
+
+.intro {
+  font-size: 16.5px;
+  line-height: 1.8;
+  text-align: justify;
+  hyphens: auto;
+  max-width: 46ch;
+  margin: 22px 0 0;
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 30px;
+  font-size: 15.5px;
+}
+
+.link {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-divider);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.linkTabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-left: 1px solid var(--color-divider);
+  padding-left: clamp(0px, 3vw, 40px);
+}
+
+@media (max-width: 700px) {
+  .form {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.input {
+  font-family: var(--font-body);
+  font-size: 15px;
+  letter-spacing: normal;
+  text-transform: none;
+  padding: 11px 12px;
+}
+
+.fieldError {
+  font-size: 12px;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--color-accent-700);
+}
+
+.formError {
+  font-size: 13px;
+  color: var(--color-accent-700);
+  margin: 0;
+}
+
+.submit {
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 26px;
+  align-self: start;
+  white-space: nowrap;
+}
