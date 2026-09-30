@@ -3,13 +3,25 @@
   margin-top: 14px;
 }
 
+/*
+ * One row on wide screens. Below that the layout switches at fixed widths
+ * (sized for the longer Dutch labels) so both languages wrap the same way:
+ *   < 1080px: brand, languages and button on top, section links below
+ *   <  560px: the button moves to its own row under the links
+ */
 .bar {
   padding: 16px 0;
   display: flex;
-  align-items: baseline;
-  gap: 28px;
+  align-items: center;
+  column-gap: 28px;
   flex-wrap: wrap;
   border-bottom: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
 }
 
 .brand {
@@ -65,4 +77,22 @@
   color: var(--color-accent-700);
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+@media (max-width: 1079px) {
+  .links {
+    order: 1;
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 559px) {
+  .links {
+    gap: 20px;
+  }
+
+  .cta {
+    order: 2;
+    margin-top: 8px;
+  }
 }
