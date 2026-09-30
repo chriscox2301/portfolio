@@ -57,7 +57,7 @@ export default function Hero({ available = true }: HeroProps) {
         <figure className={styles.figure}>
           <div className={`plate ${styles.plate}`}>
             <Image
-              src="/images/portrait.jpg"
+              src="/images/portrait.png"
               alt="Portrait of Chris Cox"
               fill
               sizes="(max-width: 900px) 90vw, 400px"

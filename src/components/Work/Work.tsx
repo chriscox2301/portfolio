@@ -28,10 +28,11 @@ export default function Work({ showRoles = true }: WorkProps) {
         {projects.map((project, index) => (
           <article key={project.id} className={styles.article}>
             <figure
-              className={styles.figure}
-              style={{ order: index % 2 === 0 ? 0 : 2 }}
+              className={`${styles.figure} ${index % 2 === 0 ? "" : styles.figureFlipped}`}
             >
-              <div className={`plate ${styles.plate}`}>
+              <div
+                className={`plate ${styles.plate} ${project.imagePortrait ? styles.platePortrait : ""}`}
+              >
                 <Image
                   src={project.imageSrc}
                   alt={project.imageAlt}

@@ -27,6 +27,9 @@ export default function Contact() {
       });
 
       if (res.ok) {
+        setName("");
+        setEmail("");
+        setMessage("");
         setStatus("sent");
         return;
       }
@@ -49,7 +52,7 @@ export default function Contact() {
     <section id="contact" aria-labelledby="contact-heading" className={styles.section}>
       <div className={styles.colophon}>
         <span className={styles.colophonRule} aria-hidden="true" />
-        <span id="contact-heading" className={styles.colophonText}>
+        <span className={styles.colophonText}>
           Colophon
         </span>
         <span className={styles.colophonRule} aria-hidden="true" />
@@ -57,7 +60,7 @@ export default function Contact() {
 
       <div className={styles.grid}>
         <div>
-          <h2 className={styles.heading}>{contact.heading}</h2>
+          <h2 id="contact-heading" className={styles.heading}>{contact.heading}</h2>
           <p className={styles.intro}>{contact.intro}</p>
           <div className={styles.links}>
             {contact.links.map((link) => (
@@ -140,7 +143,7 @@ export default function Contact() {
           <button
             type="submit"
             className={`btn btn-primary ${styles.submit}`}
-            disabled={sending}
+            disabled={sending || sent}
           >
             {sent ? "Thanks — I'll be in touch" : "Send message"}
           </button>

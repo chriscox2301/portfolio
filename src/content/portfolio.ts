@@ -27,6 +27,7 @@ export const projects: Project[] = [
     repoLabel: "github.com/chriscox2301/BezorgersApplicatie",
     imageSrc: "/images/bezorgapplicatie.png",
     imageAlt: "Screenshot of the BezorgApplicatie mobile app",
+    imagePortrait: true,
   },
   {
     id: "adminbackoffice",

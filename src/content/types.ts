@@ -10,6 +10,8 @@ export interface Project {
   repoLabel: string;
   imageSrc: string;
   imageAlt: string;
+  /** Set for tall screenshots (e.g. a phone app) so they are shown whole instead of cropped. */
+  imagePortrait?: boolean;
 }
 
 export interface SkillGroup {
