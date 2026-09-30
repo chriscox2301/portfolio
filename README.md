@@ -54,3 +54,17 @@ API route returns a 500 telling you it isn't configured yet.
 Placeholder images ship in `public/images/` at the real aspect ratios (4:5
 portraits, 16:10 project screenshots). Swap them for real photos/screenshots
 under the same filenames.
+
+## Docker
+
+The `Dockerfile` builds a standalone production image that listens on port
+3000. With docker compose, pull and rebuild after every change:
+
+```bash
+git -C portfolio pull origin main
+docker compose up -d --build portfolio
+```
+
+Runtime secrets (`RESEND_API_KEY`, `CONTACT_TO`) come from the env file at run
+time. `NEXT_PUBLIC_SITE_URL` is needed at build time, so pass it as a build
+arg (`build: { context: ./portfolio, args: { NEXT_PUBLIC_SITE_URL: https://… } }`).
