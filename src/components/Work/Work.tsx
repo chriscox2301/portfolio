@@ -1,27 +1,29 @@
 import Image from "next/image";
 import ChapterHeading from "@/components/ChapterHeading/ChapterHeading";
-import { projects } from "@/content/portfolio";
+import type { Dictionary } from "@/content/types";
 import styles from "./Work.module.css";
 
 interface WorkProps {
+  copy: Dictionary["work"];
+  projects: Dictionary["projects"];
   showRoles?: boolean;
 }
 
-export default function Work({ showRoles = true }: WorkProps) {
+export default function Work({ copy, projects, showRoles = true }: WorkProps) {
   return (
     <section id="work" aria-labelledby="work-heading" className={styles.section}>
       <ChapterHeading
         numeral="I"
-        kicker="Chapter one"
+        kicker={copy.kicker}
         headingId="work-heading"
         title={
           <>
-            Projects I built
+            {copy.titleLines[0]}
             <br />
-            while studying
+            {copy.titleLines[1]}
           </>
         }
-        intro="Three things I am happy to walk you through line by line, including the parts I would do differently now."
+        intro={copy.intro}
       />
 
       <div className={styles.list}>
@@ -50,7 +52,7 @@ export default function Work({ showRoles = true }: WorkProps) {
               <p className={styles.description}>{project.description}</p>
               {showRoles && (
                 <p className={styles.role}>
-                  <em className={styles.roleLabel}>What I did:</em>{" "}
+                  <em className={styles.roleLabel}>{copy.roleLabel}</em>{" "}
                   {project.role}
                 </p>
               )}

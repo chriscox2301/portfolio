@@ -19,12 +19,16 @@ npm run lint    # eslint
 
 ## Where the content lives
 
-All copy and structured data (projects, skills, timeline, contact links) lives
-in `src/content/portfolio.ts`, typed by `src/content/types.ts`. There's no CMS
-or database — edit that file to update the site.
+The site is bilingual: Dutch (default) at `/` and English at `/en`, switched
+with the NL / EN toggle in the masthead. All copy and structured data
+(projects, skills, timeline, contact form text) lives in
+`src/content/nl.ts` and `src/content/en.ts`, typed by `src/content/types.ts`.
+Anything that is the same in both languages (repo links, images, contact
+links) is in `src/content/shared.ts`. There's no CMS or database — edit those
+files to update the site, and keep both languages in step.
 
 Components live one-per-folder in `src/components/`, composed in
-`src/app/page.tsx`. `src/styles/classical.css` is the design system's
+`src/app/[lang]/page.tsx`. `/` is rewritten to `/nl` in `next.config.ts`. `src/styles/classical.css` is the design system's
 tokens/components stylesheet; `src/app/globals.css` holds resets and the two
 page-level rules (`.dropcap`, `.bleed`) plus the page shell.
 

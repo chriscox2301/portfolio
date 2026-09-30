@@ -1,15 +1,20 @@
 import ChapterHeading from "@/components/ChapterHeading/ChapterHeading";
-import { timeline } from "@/content/portfolio";
+import type { Dictionary } from "@/content/types";
 import styles from "./Path.module.css";
 
-export default function Path() {
+interface PathProps {
+  copy: Dictionary["path"];
+  timeline: Dictionary["timeline"];
+}
+
+export default function Path({ copy, timeline }: PathProps) {
   return (
     <section aria-labelledby="path-heading" className={styles.section}>
       <ChapterHeading
         numeral="IV"
-        kicker="Chapter four — Path"
+        kicker={copy.kicker}
         headingId="path-heading"
-        title="Education and experience"
+        title={copy.title}
       />
 
       <div className={styles.list}>

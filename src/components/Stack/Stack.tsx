@@ -1,7 +1,12 @@
-import { skillGroups } from "@/content/portfolio";
+import type { Dictionary } from "@/content/types";
 import styles from "./Stack.module.css";
 
-export default function Stack() {
+interface StackProps {
+  copy: Dictionary["stack"];
+  skillGroups: Dictionary["skillGroups"];
+}
+
+export default function Stack({ copy, skillGroups }: StackProps) {
   return (
     <section
       id="skills"
@@ -12,9 +17,9 @@ export default function Stack() {
         II
       </span>
       <div className={styles.inner}>
-        <span className={styles.kicker}>Chapter two — Stack</span>
+        <span className={styles.kicker}>{copy.kicker}</span>
         <h2 id="skills-heading" className={styles.title}>
-          What I work with
+          {copy.title}
         </h2>
         <div className={styles.rule} aria-hidden="true" />
         <div className={styles.groups}>
