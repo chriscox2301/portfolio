@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { contact } from "@/content/portfolio";
+import type { ContactCopy, ContactErrorCode } from "@/content/types";
 import styles from "./Contact.module.css";
 
 type Status = "idle" | "sending" | "sent" | "error";
-type FieldErrors = Partial<Record<"name" | "email" | "message" | "form", string>>;
+type FieldErrors = Partial<
+  Record<"name" | "email" | "message" | "form", ContactErrorCode>
+>;
 
-export default function Contact() {
+interface ContactProps {
+  copy: ContactCopy;
+}
+
+export default function Contact({ copy }: ContactProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -27,6 +33,9 @@ export default function Contact() {
       });
 
       if (res.ok) {
+        setName("");
+        setEmail("");
+        setMessage("");
         setStatus("sent");
         return;
       }
@@ -34,10 +43,10 @@ export default function Contact() {
       const data = (await res.json().catch(() => null)) as
         | { errors?: FieldErrors }
         | null;
-      setErrors(data?.errors ?? { form: "Could not send your message." });
+      setErrors(data?.errors ?? { form: "sendFailed" });
       setStatus("error");
     } catch {
-      setErrors({ form: "Could not send your message. Please try again." });
+      setErrors({ form: "sendFailed" });
       setStatus("error");
     }
   }
@@ -49,18 +58,18 @@ export default function Contact() {
     <section id="contact" aria-labelledby="contact-heading" className={styles.section}>
       <div className={styles.colophon}>
         <span className={styles.colophonRule} aria-hidden="true" />
-        <span id="contact-heading" className={styles.colophonText}>
-          Colophon
+        <span className={styles.colophonText}>
+          {copy.colophon}
         </span>
         <span className={styles.colophonRule} aria-hidden="true" />
       </div>
 
       <div className={styles.grid}>
         <div>
-          <h2 className={styles.heading}>{contact.heading}</h2>
-          <p className={styles.intro}>{contact.intro}</p>
+          <h2 id="contact-heading" className={styles.heading}>{copy.heading}</h2>
+          <p className={styles.intro}>{copy.intro}</p>
           <div className={styles.links}>
-            {contact.links.map((link) => (
+            {copy.links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -75,12 +84,12 @@ export default function Contact() {
 
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <label className={`field ${styles.field}`}>
-            Name
+            {copy.nameLabel}
             <input
               className={`input ${styles.input}`}
               type="text"
               name="name"
-              placeholder="Your name"
+              placeholder={copy.namePlaceholder}
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -89,18 +98,18 @@ export default function Contact() {
             />
             {errors.name && (
               <span id="contact-name-error" className={styles.fieldError}>
-                {errors.name}
+                {copy.errors[errors.name]}
               </span>
             )}
           </label>
 
           <label className={`field ${styles.field}`}>
-            Email
+            {copy.emailLabel}
             <input
               className={`input ${styles.input}`}
               type="email"
               name="email"
-              placeholder="you@company.nl"
+              placeholder={copy.emailPlaceholder}
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -109,18 +118,18 @@ export default function Contact() {
             />
             {errors.email && (
               <span id="contact-email-error" className={styles.fieldError}>
-                {errors.email}
+                {copy.errors[errors.email]}
               </span>
             )}
           </label>
 
           <label className={`field ${styles.field}`}>
-            Message
+            {copy.messageLabel}
             <textarea
               className={`input ${styles.input}`}
               name="message"
               rows={4}
-              placeholder="What would you like to build?"
+              placeholder={copy.messagePlaceholder}
               required
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -130,24 +139,24 @@ export default function Contact() {
             />
             {errors.message && (
               <span id="contact-message-error" className={styles.fieldError}>
-                {errors.message}
+                {copy.errors[errors.message]}
               </span>
             )}
           </label>
 
-          {errors.form && <p className={styles.formError}>{errors.form}</p>}
+          {errors.form && <p className={styles.formError}>{copy.errors[errors.form]}</p>}
 
           <button
             type="submit"
             className={`btn btn-primary ${styles.submit}`}
-            disabled={sending}
+            disabled={sending || sent}
           >
-            {sent ? "Thanks — I'll be in touch" : "Send message"}
+            {sent ? copy.sent : copy.submit}
           </button>
           <span role="status" aria-live="polite" className="visually-hidden">
-            {sending && "Sending your message…"}
-            {sent && "Thanks — I'll be in touch."}
-            {status === "error" && "Something went wrong. Please check the form."}
+            {sending && copy.statusSending}
+            {sent && copy.statusSent}
+            {status === "error" && copy.statusError}
           </span>
         </form>
       </div>

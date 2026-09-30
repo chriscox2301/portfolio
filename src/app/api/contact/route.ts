@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import type { ContactErrorCode } from "@/content/types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -10,20 +11,21 @@ interface ContactPayload {
 }
 
 function validate(payload: ContactPayload) {
-  const errors: Record<string, string> = {};
+  const errors: Partial<Record<"name" | "email" | "message", ContactErrorCode>> =
+    {};
 
   const name = typeof payload.name === "string" ? payload.name.trim() : "";
   const email = typeof payload.email === "string" ? payload.email.trim() : "";
   const message =
     typeof payload.message === "string" ? payload.message.trim() : "";
 
-  if (!name) errors.name = "Please enter your name.";
+  if (!name) errors.name = "nameRequired";
   if (!email) {
-    errors.email = "Please enter your email.";
+    errors.email = "emailRequired";
   } else if (!EMAIL_RE.test(email)) {
-    errors.email = "That doesn't look like a valid email address.";
+    errors.email = "emailInvalid";
   }
-  if (!message) errors.message = "Please enter a message.";
+  if (!message) errors.message = "messageRequired";
 
   return { name, email, message, errors };
 }
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
     payload = await request.json();
   } catch {
     return NextResponse.json(
-      { errors: { form: "Invalid request body." } },
+      { errors: { form: "invalidBody" } },
       { status: 400 },
     );
   }
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
   if (!apiKey || !to) {
     console.error("Contact form is missing RESEND_API_KEY or CONTACT_TO.");
     return NextResponse.json(
-      { errors: { form: "The contact form is not configured yet." } },
+      { errors: { form: "notConfigured" } },
       { status: 500 },
     );
   }
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
     if (error) {
       console.error("Resend error:", error);
       return NextResponse.json(
-        { errors: { form: "Could not send your message. Please try again." } },
+        { errors: { form: "sendFailed" } },
         { status: 500 },
       );
     }
@@ -78,7 +80,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Contact form send failed:", error);
     return NextResponse.json(
-      { errors: { form: "Could not send your message. Please try again." } },
+      { errors: { form: "sendFailed" } },
       { status: 500 },
     );
   }

@@ -1,10 +1,18 @@
 import { ImageResponse } from "next/og";
+import { getDictionary, hasLocale } from "@/content/dictionaries";
 
 export const alt = "Chris Cox — Front-end developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function Image() {
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const { meta } = getDictionary(hasLocale(lang) ? lang : "nl");
+
   return new ImageResponse(
     (
       <div
@@ -40,7 +48,7 @@ export default function Image() {
             color: "#e1ad66",
           }}
         >
-          Front-end developer with a backend habit.
+          {meta.ogTagline}
         </span>
       </div>
     ),
